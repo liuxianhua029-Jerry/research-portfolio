@@ -1,0 +1,75 @@
+% Reusable preamble/header for Chinese research PDFs.
+% Compile with XeLaTeX and keep ruc-logo.pdf beside the document.
+\usepackage[a4paper,top=25mm,left=25mm,bottom=25mm,right=25mm,headheight=35pt,headsep=5mm,footskip=10mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{eso-pic}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{needspace}
+\usepackage{indentfirst}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\setCJKmainfont[AutoFakeBold=1.5]{Songti SC}
+\setCJKsansfont[AutoFakeBold=1.5]{Songti SC}
+\setCJKmonofont{Songti SC}
+\newCJKfontfamily\songti[AutoFakeBold=1.5]{Songti SC}
+\newCJKfontfamily\heiti[AutoFakeBold=2]{Songti SC}
+\newCJKfontfamily\fangsong{Songti SC}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\linespread{1.5}
+\AtBeginDocument{\zihao{-4}\songti}
+\setlength{\emergencystretch}{3em}
+% Compact headings adapted from the user's reference paper; manual numbering remains in the titles.
+\ctexset{
+  section={format=\centering\songti\zihao{-3},beforeskip=1.0ex,afterskip=0.5ex},
+  subsection={format=\raggedright\songti\zihao{-4},beforeskip=1.0ex,afterskip=0.5ex},
+  subsubsection={format=\raggedright\songti\zihao{-4},beforeskip=1.0ex,afterskip=0.5ex}
+}
+\setlist{itemsep=0pt,topsep=0pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate,1]{label=\arabic*.,leftmargin=2em}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\includegraphics[pagebox=mediabox,width=5.2cm]{ruc-logo.pdf}}
+\fancyfoot[C]{\zihao{-5}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyhead[C]{\includegraphics[pagebox=mediabox,width=5.2cm]{ruc-logo.pdf}}\fancyfoot[C]{\zihao{-5}\thepage}\renewcommand{\headrulewidth}{0.4pt}}
+\fancypagestyle{empty}{\fancyhf{}\fancyhead[C]{\includegraphics[pagebox=mediabox,width=5.2cm]{ruc-logo.pdf}}\fancyfoot[C]{\zihao{-5}\thepage}\renewcommand{\headrulewidth}{0.4pt}}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.0}
+\AtBeginEnvironment{longtable}{\zihao{5}\linespread{1.0}\selectfont\setlength{\LTpre}{0.5\baselineskip}\setlength{\LTpost}{0.5\baselineskip}\renewcommand{\arraystretch}{1.0}}
+\definecolor{linknavy}{RGB}{36,70,105}
+\hypersetup{colorlinks=true,linkcolor=linknavy,urlcolor=linknavy,citecolor=linknavy}
+\newcommand{\RUCTableCaption}[1]{\Needspace{3\baselineskip}\par\vspace{0.5\baselineskip}\begin{center}{\heiti\zihao{5}\textbf{#1}\par}\end{center}\vspace{0.5\baselineskip}}
+\newcommand{\RUCTableAfterSpace}{\par\vspace{0.7\baselineskip}}
+\newcommand{\RUCNote}[1]{\par\vspace{0.35\baselineskip}\noindent{\zihao{5}\songti\textbf{#1}\par}\vspace{0.7\baselineskip}}
+% 参考文献条目正文与文章正文统一为小四号宋体；行距沿用全局1.5倍设置。
+% 首条参考文献前增加半个正文行距，使标题与正文间距约为原来的两倍；
+% 后续条目不增加额外间距。
+\newif\ifRUCFirstReference
+\RUCFirstReferencetrue
+\newcommand{\RUCReference}[2]{\Needspace{8\baselineskip}\ifRUCFirstReference\vspace{0.5\baselineskip}\RUCFirstReferencefalse\fi\par\noindent\hangindent=2em\hangafter=1{{\zihao{-4}\songti #1\ #2}\par}}
+\newcommand{\RUCSubtitle}{}
+\newcommand{\RUCDateLine}{}
+\makeatletter
+\renewcommand{\maketitle}{%
+  \par\begingroup\centering
+  {\fontsize{22}{26.4}\selectfont\songti\textbf{\@title}\par}
+  \ifx\RUCSubtitle\empty\else\vspace{10pt}{\fontsize{15}{18}\selectfont\songti\RUCSubtitle\par}\fi
+  \ifx\RUCDateLine\empty\else\vspace{8pt}{\zihao{5}\songti\RUCDateLine\par}\fi
+  \endgroup
+  \thispagestyle{plain}
+  \vspace{2pt}
+}
+\makeatother
